@@ -27,7 +27,7 @@ import { HabitacionService } from '../../services/habitacion.service';
   ],
   template: `
     <h2 mat-dialog-title>Nueva reserva</h2>
-    <mat-dialog-content [formGroup]="form">
+    <mat-dialog-content [formGroup]="form" class="form-layout">
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Hotel</mat-label>
         <mat-select formControlName="hotelId">
@@ -129,6 +129,25 @@ import { HabitacionService } from '../../services/habitacion.service';
     `
       .full-width {
         width: 100%;
+      }
+
+      .form-layout {
+        display: grid;
+        gap: 1rem;
+      }
+
+      @media (min-width: 720px) {
+        .form-layout {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .form-layout mat-form-field.full-width {
+          width: 100%;
+        }
+      }
+
+      mat-dialog-content {
+        min-width: 480px;
       }
     `
   ],

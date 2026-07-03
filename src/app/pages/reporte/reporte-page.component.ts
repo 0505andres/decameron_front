@@ -25,23 +25,26 @@ import { Papa } from 'ngx-papaparse';
       </div>
 
       <table mat-table [dataSource]="reportes()" class="mat-elevation-z1" *ngIf="!loading()">
-        <ng-container matColumnDef="hotel">
+        <ng-container matColumnDef="nombre">
           <th mat-header-cell *matHeaderCellDef>Hotel</th>
-          <td mat-cell *matCellDef="let row">{{ row.hotel }}</td>
+          <td mat-cell *matCellDef="let row">{{ row.nombre }}</td>
         </ng-container>
-        <ng-container matColumnDef="totalHabitaciones">
+        <ng-container matColumnDef="numeroHabitaciones">
           <th mat-header-cell *matHeaderCellDef>Total Habitaciones</th>
-          <td mat-cell *matCellDef="let row">{{ row.totalHabitaciones }}</td>
+          <td mat-cell *matCellDef="let row">{{ row.numeroHabitaciones }}</td>
         </ng-container>
-        <ng-container matColumnDef="ocupadas">
-          <th mat-header-cell *matHeaderCellDef>Ocupadas</th>
-          <td mat-cell *matCellDef="let row">{{ row.ocupadas }}</td>
+        <ng-container matColumnDef="habitacionesCreadas">
+          <th mat-header-cell *matHeaderCellDef>Habitaciones Creadas</th>
+          <td mat-cell *matCellDef="let row">{{ row.habitacionesCreadas }}</td>
         </ng-container>
-        <ng-container matColumnDef="ocupacion">
-          <th mat-header-cell *matHeaderCellDef>Ocupación</th>
+        <ng-container matColumnDef="habitacionesOcupadas">
+          <th mat-header-cell *matHeaderCellDef>Habitaciones Ocupadas</th>
           <td mat-cell *matCellDef="let row">
-            <span [class.green]="row.ocupacion < 30" [class.yellow]="row.ocupacion >= 30 && row.ocupacion <= 70" [class.red]="row.ocupacion > 70">
-              {{ row.ocupacion }}%
+            <span
+              [class.green]="occupancyPercent(row) <= 49"
+              [class.yellow]="occupancyPercent(row) >= 50 && occupancyPercent(row) <= 80"
+              [class.red]="occupancyPercent(row) >= 81">
+              {{ occupancyPercent(row) | number:'1.0-0' }}%
             </span>
           </td>
         </ng-container>
@@ -92,7 +95,13 @@ export class ReportePageComponent {
 
   reportes = this.facade.reportes;
   loading = this.facade.loading;
-  readonly displayedColumns = ['hotel', 'ocupacion', 'ocupadas', 'totalHabitaciones'];
+  readonly displayedColumns = ['nombre', 'numeroHabitaciones', 'habitacionesCreadas', 'habitacionesOcupadas'];
+
+  occupancyPercent(row: { habitacionesOcupadas: number; habitacionesCreadas: number }) {
+    return row.habitacionesCreadas
+      ? (row.habitacionesOcupadas / row.habitacionesCreadas) * 100
+      : 0;
+  }
 
   exportCsv() {
     const csv = this.papa.unparse(this.reportes() as any);

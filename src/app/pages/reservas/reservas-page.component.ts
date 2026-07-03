@@ -7,6 +7,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ReservaCreateDialogComponent } from './reserva-create-dialog.component';
 import { ReservaFacade } from '../../facades/reserva.facade';
+import { DatePipe } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -38,17 +39,17 @@ import { ReservaFacade } from '../../facades/reserva.facade';
           <th mat-header-cell *matHeaderCellDef>Edad</th>
           <td mat-cell *matCellDef="let row">{{ row.edad }}</td>
         </ng-container>
-        <ng-container matColumnDef="hotel">
+        <ng-container matColumnDef="hotelNombre">
           <th mat-header-cell *matHeaderCellDef>Hotel</th>
-          <td mat-cell *matCellDef="let row">{{ row.hotel }}</td>
+          <td mat-cell *matCellDef="let row">{{ row.hotelNombre }}</td>
         </ng-container>
-        <ng-container matColumnDef="tipoHabitacion">
+        <ng-container matColumnDef="tipoHabitacionNombre">
           <th mat-header-cell *matHeaderCellDef>Tipo</th>
-          <td mat-cell *matCellDef="let row">{{ row.tipoHabitacion }}</td>
+          <td mat-cell *matCellDef="let row">{{ row.tipoHabitacionNombre }}</td>
         </ng-container>
-        <ng-container matColumnDef="habitacion">
+        <ng-container matColumnDef="habitacionCodigo">
           <th mat-header-cell *matHeaderCellDef>Habitación</th>
-          <td mat-cell *matCellDef="let row">{{ row.habitacion }}</td>
+          <td mat-cell *matCellDef="let row">{{ row.habitacionCodigo }}</td>
         </ng-container>
         <ng-container matColumnDef="fechaIngreso">
           <th mat-header-cell *matHeaderCellDef>Ingreso</th>
@@ -96,7 +97,7 @@ export class ReservasPageComponent {
 
   reservas = this.reservaFacade.reservas;
   loading = this.reservaFacade.loading;
-  readonly displayedColumns = ['cliente', 'hotel', 'habitacion', 'fechaIngreso', 'fechaSalida'];
+  readonly displayedColumns = ['cliente', 'numeroDocumento', 'edad', 'hotelNombre', 'tipoHabitacionNombre', 'habitacionCodigo', 'fechaIngreso', 'fechaSalida'];
 
   openCreateDialog() {
     const dialogRef = this.dialog.open(ReservaCreateDialogComponent, { width: '680px' });
