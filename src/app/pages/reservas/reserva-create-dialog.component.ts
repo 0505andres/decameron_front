@@ -187,17 +187,30 @@ export class ReservaCreateDialogComponent {
       const hotelId = this.form.controls.hotelId.value;
       const tipoAcomodacionId = this.form.controls.tipoAcomodacionId.value;
       const tipoHabitacionId = this.form.controls.tipoHabitacionId.value;
+      const canLoad = Boolean(hotelId && tipoAcomodacionId && tipoHabitacionId);
 
-      if (hotelId && tipoAcomodacionId && tipoHabitacionId) {
+      if (canLoad) {
         this.habitacionService
           .getDisponibles({ hotelId, tipoAcomodacionId, tipoHabitacionId })
-          .subscribe((data) => this.habitacionesSignal.set(data));
+          .subscribe((data) => {
+            this.habitacionesSignal.set(data);
+            if (!data.length) {
+              this.form.controls.habitacionId.reset();
+            }
+          });
+      } else {
+        this.habitacionesSignal.set([]);
+        this.form.controls.habitacionId.reset();
       }
     });
   }
 
   habitacionEnabled() {
-    return this.form.controls.hotelId.valid && this.form.controls.tipoAcomodacionId.valid && this.form.controls.tipoHabitacionId.valid;
+    return Boolean(
+      this.form.controls.hotelId.value &&
+      this.form.controls.tipoAcomodacionId.value &&
+      this.form.controls.tipoHabitacionId.value
+    );
   }
 
   validateDates(control: AbstractControl) {

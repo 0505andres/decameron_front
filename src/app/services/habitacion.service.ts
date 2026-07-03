@@ -18,6 +18,7 @@ export class HabitacionService {
   constructor(private api: ApiService) {}
 
   getDisponibles(payload: HabitacionDisponibilidadRequest): Observable<HabitacionResponse[]> {
-    return this.api.post<HabitacionResponse[]>('/habitacion/disponible', payload);
+    const query = `?hotelId=${payload.hotelId}&tipoHabitacionId=${payload.tipoHabitacionId}&acomodacionId=${payload.tipoAcomodacionId}`;
+    return this.api.get<HabitacionResponse[]>(`/habitacion/disponible${query}`);
   }
 }
