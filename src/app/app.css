@@ -1,0 +1,22 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #f5f7fb;
+  color: #111827;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+.main-frame {
+  margin-left: 260px;
+  padding: 1.5rem;
+  min-height: 100vh;
+  background: #f5f7fb;
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .main-frame {
+    margin-left: 0;
+    padding-top: 0;
+  }
+}
